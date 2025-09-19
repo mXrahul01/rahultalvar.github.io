@@ -1,4 +1,11 @@
-// Portfolio Website JavaScript for Rahul Talvar - Fixed Version
+// Portfolio Website JavaScript for Rahul Talvar 
+
+// EmailJS Configuration
+const EMAIL_CONFIG = {
+    SERVICE_ID: 'service_i1jq1n6',
+    TEMPLATE_ID: 'template_riultoc',
+    PUBLIC_KEY: 'zFp3YoWlEdRF2iWWm'
+};
 
 // DOM elements
 const navToggle = document.getElementById('nav-toggle');
