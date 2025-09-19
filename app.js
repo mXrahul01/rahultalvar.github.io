@@ -505,19 +505,44 @@ function handleFormSubmit(e) {
     submitBtn.disabled = true;
     contactForm.classList.add('loading');
     
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-        // Reset form
+    // Get form data
+    const formData = {
+        name: contactForm.querySelector('#name').value,
+        email: contactForm.querySelector('#email').value,
+        subject: contactForm.querySelector('#subject').value,
+        message: contactForm.querySelector('#message').value
+    };
+
+// Send email using EmailJS
+    emailjs.send(
+        EMAIL_CONFIG.SERVICE_ID,
+        EMAIL_CONFIG.TEMPLATE_ID,
+        {
+            from_name: formData.name,
+            from_email: formData.email,
+            subject: formData.subject,
+            message: formData.message
+        },
+        EMAIL_CONFIG.PUBLIC_KEY
+    ).then(function(response) {
+        console.log('Email sent successfully:', response);
+         // Reset form
         contactForm.reset();
-        
         // Reset button
         submitBtn.textContent = 'Send Message';
         submitBtn.disabled = false;
         contactForm.classList.remove('loading');
-        
-        // Show success message
-        showFormStatus('Thank you for reaching out! I\'ll get back to you within 24 hours to discuss potential opportunities and collaborations.', 'success');
-    }, 2000);
+         // Show success message
+        showFormStatus('Thank you for reaching out! I\'ll get back to you within 24 hours.', 'success');
+    }, function(error) {
+        console.error('Email sending failed:', error);
+        // Reset button
+        submitBtn.textContent = 'Send Message';
+        submitBtn.disabled = false;
+        contactForm.classList.remove('loading');
+        showFormStatus('Sorry, there was an error sending your message. Please try again.', 'error');
+    });
+
 }
 
 function showFormStatus(message, type) {
